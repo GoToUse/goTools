@@ -1,6 +1,8 @@
-package appended
+package goTools
 
-import "testing"
+import (
+	"testing"
+)
 
 var arrays = [][]int{
 	[]int{1, 2, 3},

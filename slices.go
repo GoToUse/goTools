@@ -1,4 +1,4 @@
-package appended
+package goTools
 
 func Merge[T comparable](arrays ...[]T) []T {
 	var c []T

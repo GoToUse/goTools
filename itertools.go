@@ -1,17 +1,15 @@
+// itertools.go is simply like python's itertools library
+// to furnish many convenient and powerful tools to
+// help us to develop more fast.
+
 package goTools
 
 import (
-	"fmt"
 	"strings"
 )
 
-func main() {
-	b := []string{"A", "B", "C", "D"}
-	fmt.Println(pairwiseCombine(b, 2))
-}
-
-// pairwiseCombine refer to python's `itertools.combinations`.
-func pairwiseCombine(conditions []string, r int) []string {
+// PairwiseCombine refer to python's `itertools.combinations`.
+func PairwiseCombine(conditions []string, r int) []string {
 	n := len(conditions)
 	if r > n {
 		return nil
@@ -45,6 +43,7 @@ outer:
 	return result
 }
 
+// getItem should support more output form. TODO:
 func getItem(idx []int, array []string) string {
 	combineArray := make([]string, 0, len(array))
 	for _, i := range idx {
@@ -62,7 +61,7 @@ func generateArrayFrom(s, e int) []int {
 	return _a
 }
 
-func reverseArray(a []int) []int {
+func reverseArray[T comparable](a []T) []T {
 	i := 0
 	j := len(a) - 1
 
