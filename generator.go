@@ -1,3 +1,5 @@
+// generator.go imitates python's generator, get the value with Next method.
+
 package goTools
 
 type GenerateI interface {
