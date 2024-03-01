@@ -61,19 +61,60 @@ func NewCounter(elem any) *Counter {
 			value := reflect.ValueOf(elem)
 
 			for _, key := range value.MapKeys() {
-				v := value.MapIndex(key).Interface().(int)
-				summary[key.Interface()] = v
+				v := value.MapIndex(key).Interface()
+				if vv, ok := v.(int); !ok {
+					fmt.Println(fmt.Errorf("[Error]:the value of map must be int, got: %v, type: %T", v, v).Error())
+					return nil
+				} else {
+					summary[key.Interface()] = vv
+				}
 			}
 		default:
-			fmt.Println(fmt.Errorf("the parameter must be one of string, slice, map[any]int, got: %v, type: %T", elem, elem).Error())
+			fmt.Println(fmt.Errorf("[Error]:the parameter must be one of string, slice, map[any]int, got: %v, type: %T", elem, elem).Error())
 			return nil
 		}
 	}
 
-	fmt.Println("summary", summary)
 	return &Counter{summary}
 }
 
 func (c *Counter) Elements() []any {
-	return []any{}
+	elems := make([]any, 0)
+
+	for k, v := range c.data {
+		tmp := make([]any, v)
+
+		for i := 0; i < v; i++ {
+			tmp[i] = k
+		}
+		elems = append(elems, tmp...)
+	}
+
+	return elems
+}
+
+func (c *Counter) Total() int {
+	_total := 0
+	for _, v := range c.data {
+		_total += v
+	}
+
+	return _total
+}
+
+func (c *Counter) Clear() {
+	c.data = nil
+}
+
+func (c *Counter) MostCommon(n int) []CTuple {
+	return nil
+}
+
+func (c *Counter) Get(elem any) int {
+	if v, ok := c.data[elem]; ok {
+		return v
+	} else {
+		fmt.Println(fmt.Errorf("[Error]:the key is not existence, got: %v, data: %v", v, c.data).Error())
+		return 0
+	}
 }
