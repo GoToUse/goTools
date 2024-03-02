@@ -9,6 +9,7 @@ package goTools
 import (
 	"fmt"
 	"reflect"
+	"sort"
 )
 
 type CTuple struct {
@@ -36,6 +37,22 @@ func isSlice(v any) bool {
 func isMap(v any) bool {
 	t := reflect.TypeOf(v)
 	return t.Kind() == reflect.Map
+}
+
+func getOrderedKeys(data map[any]int) []any {
+	keys := make([]any, 0, len(data))
+
+	for k := range data {
+		keys = append(keys, k)
+	}
+
+	sort.SliceStable(keys, func(i, j int) bool {
+		dataI, dataJ := data[keys[i]], data[keys[j]]
+
+		return dataI > dataJ
+	})
+
+	return keys
 }
 
 func NewCounter(elem any) *Counter {
@@ -106,8 +123,17 @@ func (c *Counter) Clear() {
 	c.data = nil
 }
 
-func (c *Counter) MostCommon(n int) []CTuple {
-	return nil
+func (c *Counter) MostCommon(n int) (result []CTuple) {
+	ordered := getOrderedKeys(c.data)
+
+	for i := 0; i < n; i++ {
+		result = append(result, CTuple{
+			elem:  ordered[i],
+			times: c.data[ordered[i]],
+		})
+	}
+
+	return result
 }
 
 func (c *Counter) Get(elem any) int {

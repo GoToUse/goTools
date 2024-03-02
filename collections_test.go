@@ -1,6 +1,7 @@
 package goTools
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,6 +12,8 @@ func TestNewCounter(t *testing.T) {
 
 	c := NewCounter(data)
 	assert.Equal(t, map[any]int{1: 2, 3: 2, 5: 1, 2: 1, 8: 1, 10: 1}, c.data)
+
+	fmt.Println(c.MostCommon(3))
 
 	data1 := "abceaefdb"
 	c1 := NewCounter(data1)
