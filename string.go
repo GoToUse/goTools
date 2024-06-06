@@ -18,6 +18,16 @@ func BytesToString(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
 
+// go1.20
+func StringToBytes(s string) []byte {
+    return unsafe.Slice(unsafe.StringData(s), len(s))
+}
+
+// go1.20
+func BytesToString(b []byte) string {
+    return unsafe.String(&b[0], len(b))
+}
+
 func reverseString(s string) string {
 	r := []rune(s)
 	for i, j := 0, len(r)-1; i < j; i, j = i+1, j-1 {
